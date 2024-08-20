@@ -57,7 +57,6 @@ exports.resendOTP=catchAsync(async(req,res,next)=>{
     newUser.otpExpiration=Date.now() + 1 * 60 * 1000
     newUser.userOTP=otp
    await  newUser.save()
-    const otp=await OTP(email)
     if(!email)
     {return next(new appError('Email do-not exist.',404))}
     res.status(200).json({
