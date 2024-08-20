@@ -5,6 +5,10 @@ const blockSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    blocked:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
     reason:{
         type:String,
         required:[true,'Reason must be provided!']
