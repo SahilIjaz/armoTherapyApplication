@@ -43,7 +43,7 @@ router
 
 router
 .route('/deleteAccount/Professional')
-.get(
+.post(
     authControllers.protect,
     authControllers.restrictTo('professional'),
     authControllers.deleteAccount
