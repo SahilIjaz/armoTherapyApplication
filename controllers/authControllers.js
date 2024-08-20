@@ -185,7 +185,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (!freshUser) {
       return next(new appError('This user no longer exists.', 401));
     }
-  
+  console.log('DONE WITH THIS API')
     req.user = freshUser;
     next();
   });
