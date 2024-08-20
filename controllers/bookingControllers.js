@@ -33,13 +33,13 @@ exports.requestBooking=catchAsync(async(req,res,next)=>{
         note:req.body.note
     })
 
-    const notification=await Notification.create({
-        bookingRequested:booking,
-        pendingBooking:booking,
-        notificationReceiver:req.user._id
-    })
-    if(!notification){return next(new appError('Notification not created!'))}
-else{console.log('Notification cretaed successfully ! ')}
+//     const notification=await Notification.create({
+//         bookingRequested:booking,
+//         pendingBooking:booking,
+//         notificationReceiver:req.user._id
+//     })
+//     if(!notification){return next(new appError('Notification not created!'))}
+// else{console.log('Notification cretaed successfully ! ')}
 
     if(!booking)
     {return next(new appError('Booking has not been created!',500))}
