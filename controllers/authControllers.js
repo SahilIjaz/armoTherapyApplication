@@ -41,13 +41,13 @@ exports.signUpVerification=catchAsync(async(req,res,next)=>{
     {   return next(new appError('OTP verification time expired',404))}
     console.log('USER OTP I S :',user.userOTP)
     console.log('OTP CHECKING ')
-    if(otpProvided!=user.userOTP)
+    if(otpProvided!==user.userOTP)
     {
        return next(new appError('OTP is in-correct!',404)) 
     }
 
-    user.logIn=true;
-        await user.save();
+    // user.logIn=true;
+        // await user.save();
         res.status(200).json({
             tokenIs:token,
             message:'You have logged IN, successfully ',
