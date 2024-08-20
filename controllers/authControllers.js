@@ -44,7 +44,7 @@ exports.signUpVerification=catchAsync(async(req,res,next)=>{
     {
        return next(new appError('OTP is in-correct!',404)) 
     }
-    
+
     user.logIn=true;
         await user.save();
         res.status(200).json({
@@ -118,6 +118,7 @@ if(!email)
 const user=await User.findOne({email})
 const otp=await OTP(email)
 user.userOTP=otp
+user.otpExpiration = Date.now() + 1 * 60 * 1000;
 await user.save()
 res.status(200).json({
     message:'OTP resent at your Email successfully !',
@@ -130,11 +131,17 @@ res.status(200).json({
 //forgotOTPverification(API)
 exports.forgotOTPVerfication=catchAsync(async(req,res,next)=>{
     const {email,otp}=req.body
+    console.log('API HIT ! ')
+    const checkValidation=Date.now()
 if(!email)
 {return next(new appError('This user do-not exists.',400))}
 const user=await User.findOne({email})
 if(otp!=user.userOTP)
 {return next(new appError('OTP provided is not valid.',500))}
+
+if(checkValidation>user.otpExpiration)
+    {   return next(new appError('OTP verification time expired',404))}
+
 user.forgotVerify=true
 await user.save()
 res.status(200).json({
@@ -146,9 +153,10 @@ user
 
 //resetPassword(API)
 exports.resetPassword=catchAsync(async(req,res,next)=>{
-const user=await User.findOneAndUpdate({email:req.body.email},
-    req.body,
-    {new:true})
+const user=await User.findOne({email:req.body.email})
+    user.password=req.body.password
+    user.confirmPassword=req.body.confirmPassword
+    await user.save()
 if(!user)
 {return next(new appError('User do-not exists .',400))}
 if(!user.forgotVerify)
