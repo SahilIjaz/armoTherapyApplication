@@ -9,6 +9,7 @@ const { json } = require('express')
 //deleteUser(completelyWipeOut)(API)
 exports.wipeOutUser=catchAsync(async(req,res,next)=>{
     const user=await User.findByIdAndDelete(req.params._id)
+    console.log('USER IS : ',user)
     if(user)
     {return next(new appError('User not deleted !',404))}
     res.status(200).json({
