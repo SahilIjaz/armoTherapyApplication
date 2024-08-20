@@ -53,7 +53,7 @@ exports.signUpVerification=catchAsync(async(req,res,next)=>{
 exports.resendOTP=catchAsync(async(req,res,next)=>{
     const {email}=req.body
     const newUser=await User.findOne({email})
-    const otp=await OTP(newUser.email)
+    const otp=await OTP(email)
     newUser.otpExpiration=Date.now() + 1 * 60 * 1000
     newUser.userOTP=otp
    await  newUser.save()
