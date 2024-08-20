@@ -52,7 +52,7 @@ exports.signUpVerification=catchAsync(async(req,res,next)=>{
 //resendOTP(API)
 exports.resendOTP=catchAsync(async(req,res,next)=>{
     const {email}=req.body
-    const newUser=await User.findOne(email)
+    const newUser=await User.findOne({email})
     newUser.otpExpiration=Date.now() + 1 * 60 * 1000
     newUser.userOTP=otp
    await  newUser.save()
