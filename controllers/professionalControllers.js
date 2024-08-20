@@ -14,16 +14,21 @@ const Review=require('../models/reviewsModel.js')
 exports.nearestProfessionals = catchAsync(async (req, res, next) => {
     let user = await User.findOne({ _id: req.user._id });
     const userCoordinates = user.location.coordinates;
-    console.log('CORDINTES : ',userCoordinates)
+    console.log('CORDINATES : ', userCoordinates);
+
+    const radiusInKm = 24.14; // Replace this with the desired radius in kilometers
+    const earthRadiusInKm = 6371; // Earth's radius in kilometers
+
     const options = {
         location: {
             $geoWithin: {
-                $centerSphere: [userCoordinates, 15 / 3963.2] // Use userCoordinates directly here
+                $centerSphere: [userCoordinates, radiusInKm / earthRadiusInKm] // Convert radius from km to radians
             }
         },
         role: 'professional' // Add role filter here
     };
-    console.log('OPTIONS : ',options)
+
+    console.log('OPTIONS : ', options);
     user = await User.find(options, { role: 1 }); // Corrected projection
     if (!user.length) {
         return next(new appError('No professionals nearby.', 404));

@@ -114,7 +114,11 @@ location: {
     coordinates: {
       type: [Number], 
       required: true, 
-      default: [13.5294, 37.8649] 
+      default: [0.0, 0.0] 
+    },
+    address:{
+        type:String,
+        reequired:[true,'Address is required.']
     }
   }
 
