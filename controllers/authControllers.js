@@ -21,7 +21,8 @@ console.log('OTP is :',otp)
     res.status(200).json({
         message:'User created successfully !',
         status:200,
-        OTPis:otp
+        OTPis:otp,
+        user
      })
 })
 
@@ -51,6 +52,10 @@ exports.signUpVerification=catchAsync(async(req,res,next)=>{
 //resendOTP(API)
 exports.resendOTP=catchAsync(async(req,res,next)=>{
     const {email}=req.body
+    const newUser=await User.findOne(email)
+    newUser.otpExpiration=Date.now() + 1 * 60 * 1000
+    newUser.userOTP=otp
+   await  newUser.save()
     const otp=await OTP(email)
     if(!email)
     {return next(new appError('Email do-not exist.',404))}
