@@ -16,7 +16,7 @@ exports.nearestProfessionals = catchAsync(async (req, res, next) => {
     const userCoordinates = user.location.coordinates;
     console.log('CORDINATES : ', userCoordinates);
 
-    const radiusInKm = 4; // Replace this with the desired radius in kilometers
+    const radiusInKm = 1; // Replace this with the desired radius in kilometers
     const earthRadiusInKm = 6371; // Earth's radius in kilometers
 
     const options = {
