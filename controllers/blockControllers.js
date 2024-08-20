@@ -13,6 +13,8 @@ const block=await Block.create({
     blocked:req.params.id,
     reason:req.body.reason
 })
+console.log('BLOCKER ',req.user)
+console.log('BLOCKER ',req.user.role)
 if(!block)
 {  return next(new appError('No-one was blocked !',404))}
 console.log('BLOCKED ONE IS : ',beingBlocked)
