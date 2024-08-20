@@ -22,7 +22,7 @@ console.log('OTP is :',otp)
         message:'User created successfully !',
         status:200,
         OTPis:otp,
-        user
+        newUser
      })
 })
 
