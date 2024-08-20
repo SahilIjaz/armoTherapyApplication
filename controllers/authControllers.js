@@ -62,7 +62,8 @@ exports.resendOTP=catchAsync(async(req,res,next)=>{
     res.status(200).json({
         message:'OTP resent at your Email adddress',
         status:200,
-        OTPIS:otp
+        OTPIS:otp,
+        newUser
     })
 })
 
