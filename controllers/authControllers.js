@@ -28,14 +28,18 @@ console.log('OTP is :',otp)
 
 //signUPVerification(API)
 exports.signUpVerification=catchAsync(async(req,res,next)=>{
+    console.log('API HIT ! ')
     const checkValidation=Date.now()
+    console.log('VALIDATION CHECKER FIXED ',checkValidation)
     const {email}=req.body
     const token=tokenGenerator({email})
     const otpProvided=req.body.otp
     const user=await User.findOne({email})
+    console.log('USER FOUND ',user)
     if(checkValidation>user.otpExpiration)
     {   return next(new appError('OTP verification time expired',404))}
     console.log('USER OTP I S :',user.userOTP)
+    console.log('OTP CHECKING ')
     if(otpProvided===user.userOTP)
     {
         user.logIn=true;
