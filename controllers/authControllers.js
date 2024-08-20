@@ -50,22 +50,32 @@ exports.signUpVerification=catchAsync(async(req,res,next)=>{
 })
 
 //resendOTP(API)
-exports.resendOTP=catchAsync(async(req,res,next)=>{
-    const {email}=req.body
-    const newUser=await User.findOne({email})
-    const otp=await OTP(email)
-    newUser.otpExpiration=Date.now() + 1 * 60 * 1000
-    newUser.userOTP=otp
-   await  newUser.save()
-    if(!email)
-    {return next(new appError('Email do-not exist.',404))}
+exports.resendOTP = catchAsync(async (req, res, next) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return next(new appError('Email does not exist.', 404));
+    }
+
+    const newUser = await User.findOne({ email });
+    
+    if (!newUser) {
+        return next(new appError('User with this email does not exist.', 404));
+    }
+
+    const otp = await OTP(email);
+    newUser.otpExpiration = Date.now() + 1 * 60 * 1000;
+    newUser.userOTP = otp;
+    await newUser.save();
+
     res.status(200).json({
-        message:'OTP resent at your Email adddress',
-        status:200,
-        OTPIS:otp,
+        message: 'OTP resent to your email address',
+        status: 200,
+        OTPIS: otp,
         newUser
-    })
-})
+    });
+});
+
 
 //logIn(API)
 exports.logIn=catchAsync(async(req,res,next)=>{
