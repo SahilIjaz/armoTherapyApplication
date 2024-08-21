@@ -156,10 +156,12 @@ exports.cancelledBookings=catchAsync(async(req,res,next)=>{
 //cancellBooking(API)
 exports.acceptorCancelBooking=catchAsync(async(req,res,next)=>{
     console.log('HIT API OVER HERE ..... ')
-const booking=await Booking.findById( req.params.id)
+const booking=await Booking.findById(req.params.id)
 if(booking.status==='cancelled')
 {return next(new appError('Booking has already been cancelled !'),404)}
-console.log('BOOKING : ',booking)
+else if(booking.status==='accepted')
+{return next(new appError('Booking has already been accepted !'),404)}
+    console.log('BOOKING : ',booking)
 if(req.user.role==='user')
 {
     if(req.user._id.toString()===booking.user._id.toString())
