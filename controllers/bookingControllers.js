@@ -105,7 +105,7 @@ exports.cancelledBookings=catchAsync(async(req,res,next)=>{
          booking=await Booking.find({
             status: 'cancelled',
     professional: req.user._id
-        }) 
+        })
     }
     console.log('BOOKING IS : ',booking)
     if(booking.length===0)
